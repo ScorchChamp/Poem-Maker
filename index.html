@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+</head>
+
+<body>
+    <script src="https://scorchchamp.github.io/auto-format.js"></script>
+    <form>
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name">
+        <br>
+        <label for="keywords">Keywords (comma separated):</label>
+        <input type="text" id="keywords" name="keywords">
+        <br><br>
+        <button type="button" onclick="generatePoem()">Generate Poem</button>
+    </form>
+    <br>
+    <div id="output"></div>
+
+    <script>
+        async function generatePoem() {
+            let name = document.getElementById("name").value;
+            let keywords = document.getElementById("keywords").value;
+            let output = document.getElementById("output");
+            fetch(`http://localhost:3000/generatePoem/${name}/${keywords}`)
+                .then(data => data.json())
+                .then(parsed => {
+                    let poem = parsed[0].text;
+                    poem = poem.replace(/\n/g, "<br>");
+                    console.log({poem});
+                    output.innerHTML = poem;
+                })
+        }
+    </script>
+</body>
+
+</html>
